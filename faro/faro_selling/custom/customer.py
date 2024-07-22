@@ -21,6 +21,7 @@ class Customer(ERPNextCustomer):
         rules = [
             self.customer_type == "Individual",
             self.is_passport_or_id_number != "",
+            self.has_primary_mobile
         ]
         if self.is_passport_or_id_number == "ID Number":
             rules.append(self.is_valid_id_number_customer)
@@ -62,3 +63,9 @@ class Customer(ERPNextCustomer):
             self.passport_country is not None and self.passport_country != 'South Africa'
         ]
         return all(rules)
+
+    @property
+    def has_primary_mobile(self):
+        return frappe.db.get_value(
+            "Contact", self.customer_primary_contact, "mobile_no"
+        ) is not None
