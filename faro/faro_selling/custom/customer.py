@@ -12,12 +12,15 @@ logger = logging.getLogger(__name__)
 
 class Customer(ERPNextCustomer):
     if TYPE_CHECKING:
+        can_lay_buy: DF.Check
         is_passport_or_id_number: DF.Literal["ID Number", "Passport"]
         passport_or_id_number: DF.Data
         passport_country: Country
 
-    @property
-    def can_lay_buy(self):
+    def before_save(self):
+        self.can_lay_buy = self.eligible_for_lay_buy()
+
+    def eligible_for_lay_buy(self):
         rules = [
             self.customer_type == "Individual",
             self.is_passport_or_id_number != "",
