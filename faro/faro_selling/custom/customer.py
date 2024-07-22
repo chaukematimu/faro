@@ -15,6 +15,10 @@ class Customer(ERPNextCustomer):
         passport_or_id_number: DF.Data
         passport_country: DF.Data
 
+    @property
+    def can_lay_buy(self):
+        return False
+
     def validate(self):
         if self.is_passport_or_id_number == "ID Number":
             self.validate_id_number()
