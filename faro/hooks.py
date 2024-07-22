@@ -68,7 +68,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "faro.install.before_install"
-# after_install = "faro.install.after_install"
+after_install = "faro.setup.install.after_install"
 
 # Uninstallation
 # ------------
